@@ -1,0 +1,247 @@
+%% Based on the script provided by Sven Hartenstein 2010, 2012
+%% %% mail@svenhartenstein.de
+%% http://www.svenhartenstein.de
+
+\documentclass[a4paper,10pt,oneside,headsepline]{scrartcl}
+%documentclass[english,pdf]{sdaps}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{wasysym}% provides \ocircle and \Box
+\usepackage{enumitem}% easy control of topsep and leftmargin for lists
+\usepackage{color}% used for background color
+\usepackage{forloop}% used for \Qrating and \Qlines
+\usepackage{ifthen}% used for \Qitem and \QItem
+\usepackage{typearea}
+\areaset{17cm}{26cm}
+\setlength{\topmargin}{-1cm}
+\usepackage{scrlayer-scrpage}
+\usepackage{amssymb}
+\usepackage{array,longtable}
+\usepackage{xpatch}
+\usepackage[T1]{fontenc}
+\pagestyle{scrheadings}
+\ihead{Muñoz del Carpio-Toia et al. 2021 }
+\ohead{\pagemark}
+\chead{}
+\cfoot{}
+
+\newcommand{\Qq}[1]{\textbf{#1}}
+\newcommand{\QO}{$\Box$}
+
+\newcounter{qr}
+\newcommand{\Qrating}[1]{\QO\forloop{qr}{1}{\value{qr} < #1}{---\QO}}
+
+\newcommand{\Qline}[1]{\noindent\rule{#1}{0.6pt}}
+
+\newcounter{ql}
+\newcommand{\Qlines}[1]{\forloop{ql}{0}{\value{ql}<#1}{\vskip0em\Qline{\linewidth}}}
+\newenvironment{Qlist}{%
+\renewcommand{\labelitemi}{\QO}
+\begin{itemize}[leftmargin=1.5em,topsep=-.5em]
+}{%
+\end{itemize}
+}
+
+\newlength{\qt}
+\newcommand{\Qtab}[2]{
+\setlength{\qt}{\linewidth}
+\addtolength{\qt}{-#1}
+\hfill\parbox[t]{\qt}{\raggedright #2}
+}
+
+\newcounter{itemnummer}
+\newcommand{\Qitem}[2][]{
+\ifthenelse{\equal{#1}{}}{\stepcounter{itemnummer}}{}
+\ifthenelse{\equal{#1}{a}}{\stepcounter{itemnummer}}{}
+\begin{enumerate}[topsep=2pt,leftmargin=2.8em]
+\item[\textbf{\arabic{itemnummer}#1.}] #2
+\end{enumerate}
+}
+
+\definecolor{bgodd}{rgb}{0.8,0.8,0.8}
+\definecolor{bgeven}{rgb}{0.9,0.9,0.9}
+\newcounter{itemoddeven}
+\newlength{\gb}
+\newcommand{\QItem}[2][]{
+\setlength{\gb}{\linewidth}
+\addtolength{\gb}{-5.25pt}
+\ifthenelse{\equal{\value{itemoddeven}}{0}}{%
+\noindent\colorbox{bgeven}{\hskip-3pt\begin{minipage}{\gb}\Qitem[#1]{#2}\end{minipage}}%
+\stepcounter{itemoddeven}%
+}{%
+\noindent\colorbox{bgodd}{\hskip-3pt\begin{minipage}{\gb}\Qitem[#1]{#2}\end{minipage}}%
+\setcounter{itemoddeven}{0}%
+}
+}
+%WPV questionnaire, based in the WHO survey on workplace violence in the health sector
+\begin{document}
+
+\begin{center}
+\textbf{\LARGE Workplace violence in COVID-19 hospitals questionnaire}
+\end{center}\vskip1em
+
+\noindent We are interested in knowing your experiences regarding workplace violence (WPV) in the context of the COVID-19 pandemic. Please complete the questionnaire by either selecting an alternative or typing the answer when needed \footnote{The following questionnaire is a printer friendly version of the online instrument used for the study "Workplace violence against physicians treating COVID-19 patients in Peru: A cross-sectional study".}. 
+
+\section*{Section I. Socioeconomic and workplace characteristics }
+
+
+\Qitem{ \Qq{How old are you?} }
+
+\Qitem{ \Qq{Are you:} \hskip0.4cm \QO{}
+Female \hskip0.5cm \QO{} Male  }
+
+\Qitem{ \Qq{What is your marital status?}
+\begin{Qlist}
+\item Single
+\item Married
+\item Cohabiting
+\item Divorced
+\item Separated
+\item Widowed
+\end{Qlist}
+}
+
+\Qitem{ \Qq{Currently, do you live with your family?}
+\begin{Qlist}
+\item I moved to avoid spreading
+\item I live with my family
+\item I live alone
+\item I live with a part of my family
+
+\end{Qlist}
+}
+\Qitem{ \Qq{How many people are financially dependent on you? } }
+\Qitem{ \Qq{Do you have any medical specialty?:} \hskip0.4cm \QO{}
+Yes \hskip0.5cm \QO{} No \hskip0.5cm \QO{} Resident  }
+\Qitem{ \Qq{If affirmative, what is your specialty?}: }
+\Qitem{ \Qq{How many years of work experience in the health sector —including SERUMS— do you presently have}:  }
+\Qitem{ \Qq{How many months have you been treating COVID-19 patients?}:  }
+\Qitem{ \Qq{Where do you attend COVID-19 patients?}
+\begin{Qlist}
+\item MINSA hospital
+\item EsSalud hospital
+\item Private facility
+\item Primary care center 
+\item Other 
+\end{Qlist}
+}
+
+\section*{Section II. History of workplace violence during the pandemic}
+
+\Qitem{\Qq{During the COVID-19 pandemic, have you suffered any type of violence in your workplace, including physical or psychological (threats, verbal abuse, sexual harassment) violence?} 
+\begin{Qlist}
+\item I have not suffered violence
+\item Yes, once
+\item 2-4 times
+\item 5 times or more
+
+\end{Qlist}
+}
+\Qitem{\Qq{ What is the most common type of violence you've experienced?}
+
+\begin{Qlist}
+\item I have not suffered violence
+\item Physical violence
+\item Psychological violence - threats
+\item Psychological violence - insults
+\item Psychological violence - other types of verbal abuse
+\item Sexual harassment 
+\end{Qlist}
+}
+
+\minisec{How frequent was the following type of violence experienced?}
+
+    \Qitem{ \Qq{Physical violence:} \hskip1.15cm \QO{}
+Never \hskip0.3cm \QO{} Once \hskip0.3cm \QO{} 2-4 times \hskip0.3cm \QO{} > 5 times   }
+
+    \Qitem{ \Qq{Verbal abuse:} \hskip1.9cm \QO{}
+Never \hskip0.3cm \QO{} Once \hskip0.3cm \QO{} 2-4 times \hskip0.3cm \QO{} > 5 times   }
+
+    \Qitem{ \Qq{Threats:} \hskip2.8cm \QO{}
+Never \hskip0.3cm \QO{} Once \hskip0.3cm \QO{} 2-4 times \hskip0.3cm \QO{} > 5 times   }
+    \Qitem{ \Qq{Insults:} \hskip3cm \QO{}
+Never \hskip0.3cm \QO{} Once \hskip0.3cm \QO{} 2-4 times \hskip0.3cm \QO{} > 5 times   }
+    \Qitem{ \Qq{Sexual harassment:} \hskip0.9cm \QO{}
+Never \hskip0.3cm \QO{} Once \hskip0.3cm \QO{} 2-4 times \hskip0.3cm \QO{} > 5 times   }
+\Qitem{\Qq{Where did you suffered violence? Check all that apply} 
+\begin{Qlist}
+\item Did not suffer violence
+\item Inside health facility
+\item Outside health facility
+\item Out of service
+\item During tele-consultations
+\item Near home
+\end{Qlist}
+}
+\Qitem{\Qq{If you suffered violence inside the health facility, where did it happen?} 
+\begin{Qlist}
+\item A COVID-19 area
+\item A COVID-19 ICU 
+\item A non-COVID-19 area
+\end{Qlist}
+}
+\minisec{Who is the main perpetrator of the following types of violence?}
+\Qitem{ \Qq{Physical violence:} \hskip0.5cm \QO{}
+Did not suffer this type of violence \hskip0.3cm \QO{} Patient \hskip0.3cm \QO{} Patient's family/Caregiver \hskip0.3cm \QO{} Other health personnel \hskip0.3cm \QO{} Non-health personnel (administrative) \hskip0.3cm \QO{} Other  }
+
+\Qitem{ \Qq{Verbal abuse:} \hskip1.3cm \QO{}
+Did not suffer this type of violence \hskip0.3cm \QO{} Patient \hskip0.3cm \QO{} Patient's family/Caregiver \hskip0.3cm \QO{} Other health personnel \hskip0.3cm \QO{} Non-health personnel (administrative) \hskip0.3cm \QO{} Other }
+
+ \Qitem{ \Qq{Threats:} \hskip2.1cm \QO{}
+Did not suffer this type of violence \hskip0.3cm \QO{} Patient \hskip0.3cm \QO{} Patient's family/Caregiver\hskip0.3cm \QO{} Other health personnel \hskip0.3cm \QO{} Non-health personnel (administrative) \hskip0.3cm \QO{} Other }
+ \Qitem{ \Qq{Insults:} \hskip2.3cm \QO{}
+Did not suffer this type of violence \hskip0.3cm \QO{} Patient \hskip0.3cm \QO{} Patient's family/Caregiver\hskip0.3cm \QO{} Other health personnel \hskip0.3cm \QO{} Non-health personnel (administrative) \hskip0.3cm \QO{} Other  }
+\Qitem{ \Qq{Sexual harassment:} \hskip0.3cm \QO{}
+Did not suffer this type of violence \hskip0.3cm \QO{} Patient \hskip0.3cm \QO{} Patient's family/Caregiver \hskip0.3cm \QO{} Other health personnel \hskip0.3cm \QO{} Non-health personnel (administrative) \hskip0.3cm \QO{} Other }
+
+\minisec{In which of the following places is workplace violence more frequent?}
+\vskip.5em
+
+\Qitem[a]{ \Qq{COVID-19 Triage} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[b]{ \Qq{Hospitalization} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[c]{ \Qq{ICU} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[d]{ \Qq{In hospital corridors} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[e]{ \Qq{Tents} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[f]{ \Qq{Modules} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[g]{ \Qq{Other services} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[h]{ \Qq{Tele-consultations} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[i]{ \Qq{Outside health service} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem[j]{ \Qq{Near home} \Qtab{4cm}{Very frequently \Qrating{5} Never}}
+\Qitem{ \Qq{Do you consider that the violent events in the context of the COVID-19 pandemic could have been prevented?:} \hskip0.4cm \QO{}
+Yes \hskip0.5cm \QO{} No  }
+
+\section*{Section III. Factors associated with workplace violence and measures to reduce it}
+\minisec{Do you think the following factors are associated with workplace violence?}
+\vskip.5em
+
+\Qitem[a]{ \Qq{Lack of oxygen} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[b]{ \Qq{Lack of ventilators} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[c]{ \Qq{Lack of human resources} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[d]{ \Qq{Patients arriving too late} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[e]{ \Qq{Lack of ICU beds} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[f]{ \Qq{Claims beyond physicians means} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[g]{ \Qq{Lack of administrative support} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[h]{ \Qq{Difficult access to molecular tests} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[i]{ \Qq{Difficult access to rapid tests} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[j]{ \Qq{Lack of medicines} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[k]{ \Qq{Lack of understanding of doctor's overload}\Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[l]{ \Qq{Complaints of self medication} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[m]{ \Qq{High lethality} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[n]{ \Qq{Lack of communication between patients and family} \Qtab{4cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[o]{ \Qq{Non-insurance coverage} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[p]{ \Qq{Difficult access to lab tests} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[q]{ \Qq{High cost of CT scans} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[r]{ \Qq{Lack of hemodialysis} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[s]{ \Qq{Fear of doctors spreading infection} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\vskip.5em
+
+\minisec{In your opinion, which of the following are the most important measures to reduce WPV in the context of the COVID-19 pandemic ?}
+\vskip.5em
+\Qitem[a]{ \Qq{Acknowledgment of WPV by health authorities} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[b]{ \Qq{Establishing reporting procedures} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[c]{ \Qq{Hiring permanent security personnel} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[d]{ \Qq{Solve patients needs and demands} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[e]{ \Qq{Solve physicians needs and demands} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+\Qitem[f]{ \Qq{Enhance security measures} \Qtab{8cm}{Totally disagree \Qrating{5} Totally agree}}
+
+\end{document}
